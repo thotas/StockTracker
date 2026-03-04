@@ -1,0 +1,89 @@
+{
+  "": {
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/master.swiftdeps"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Models/APIModels.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/APIModels.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/APIModels.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/APIModels~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/APIModels.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/APIModels.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Models/Stock.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/Stock.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/Stock.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/Stock~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/Stock.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/Stock.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Services/WatchlistStore.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/WatchlistStore.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/WatchlistStore.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/WatchlistStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/WatchlistStore.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/WatchlistStore.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Services/YahooFinanceService.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/YahooFinanceService.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/YahooFinanceService.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/YahooFinanceService~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/YahooFinanceService.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/YahooFinanceService.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/StockTrackerApp.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockTrackerApp.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockTrackerApp.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockTrackerApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockTrackerApp.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockTrackerApp.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/ViewModels/StockListViewModel.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListViewModel.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListViewModel.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListViewModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListViewModel.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListViewModel.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Views/AddStockView.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/AddStockView.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/AddStockView.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/AddStockView~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/AddStockView.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/AddStockView.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Views/ContentView.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/ContentView.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/ContentView.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/ContentView.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/ContentView.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Views/SparklineView.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/SparklineView.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/SparklineView.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/SparklineView~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/SparklineView.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/SparklineView.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Views/StockDetailView.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockDetailView.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockDetailView.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockDetailView~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockDetailView.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockDetailView.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Views/StockListView.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListView.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListView.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListView~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListView.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockListView.dia"
+  },
+  "/Users/thotas/Development/LocalModels/StockTracker/Sources/StockTracker/Views/StockRowView.swift": {
+    "dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockRowView.d",
+    "object": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockRowView.swift.o",
+    "swiftmodule": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockRowView~partial.swiftmodule",
+    "swift-dependencies": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockRowView.swiftdeps",
+    "diagnostics": "/Users/thotas/Development/LocalModels/StockTracker/.build/arm64-apple-macosx/debug/StockTracker.build/StockRowView.dia"
+  }
+}
