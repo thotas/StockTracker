@@ -4,3 +4,6 @@
 Package.resolved
 DerivedData/
 *.DS_Store
+
+# Keep the app bundle tracked
+!StockTracker.app/
