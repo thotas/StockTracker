@@ -79,35 +79,38 @@ final class StockListViewModel: ObservableObject {
         }
 
         do {
-            async let quotesTask = service.fetchQuotes(symbols: symbols)
-            async let sparklinesTask = service.fetchSparklines(symbols: symbols)
-            let (quotes, sparklines) = try await (quotesTask, sparklinesTask)
+            // Single concurrent fetch: v8/finance/chart returns quotes + sparkline per symbol
+            let charts = try await service.fetchAllCharts(symbols: symbols)
 
             var updated: [Stock] = []
             for symbol in symbols {
-                // Reuse existing stock to preserve stable ID and any cached sparkline
                 var stock = stocks.first(where: { $0.symbol == symbol }) ?? Stock(symbol: symbol)
 
-                if let q = quotes[symbol] {
-                    stock.name = q.shortName ?? q.longName ?? symbol
-                    stock.price = q.regularMarketPrice ?? stock.price
-                    stock.previousClose = q.regularMarketPreviousClose ?? stock.previousClose
-                    stock.change = q.regularMarketChange ?? stock.change
-                    stock.changePercent = q.regularMarketChangePercent ?? stock.changePercent
-                    stock.volume = q.regularMarketVolume ?? stock.volume
-                    stock.marketCap = q.marketCap ?? stock.marketCap
-                    stock.open = q.regularMarketOpen ?? stock.open
-                    stock.high = q.regularMarketDayHigh ?? stock.high
-                    stock.low = q.regularMarketDayLow ?? stock.low
-                    stock.weekHigh52 = q.fiftyTwoWeekHigh ?? stock.weekHigh52
-                    stock.weekLow52 = q.fiftyTwoWeekLow ?? stock.weekLow52
-                    stock.currency = q.currency ?? stock.currency
-                    stock.marketState = Stock.MarketState(rawValue: q.marketState ?? "") ?? .regular
-                    stock.lastUpdated = Date()
-                }
+                if let chart = charts[symbol] {
+                    let meta = chart.meta
+                    let prevClose = meta.prevClose
+                    let price = meta.regularMarketPrice ?? stock.price
+                    let change = prevClose > 0 ? (price - prevClose) : stock.change
+                    let changePct = prevClose > 0 ? (change / prevClose * 100) : stock.changePercent
 
-                if let data = sparklines[symbol], !data.isEmpty {
-                    stock.sparklineData = data
+                    stock.name = meta.shortName ?? meta.longName ?? symbol
+                    stock.price = price
+                    stock.previousClose = prevClose > 0 ? prevClose : stock.previousClose
+                    stock.change = change
+                    stock.changePercent = changePct
+                    stock.volume = meta.regularMarketVolume ?? stock.volume
+                    stock.marketCap = meta.marketCap ?? stock.marketCap
+                    stock.open = meta.regularMarketOpen ?? stock.open
+                    stock.high = meta.regularMarketDayHigh ?? stock.high
+                    stock.low = meta.regularMarketDayLow ?? stock.low
+                    stock.weekHigh52 = meta.fiftyTwoWeekHigh ?? stock.weekHigh52
+                    stock.weekLow52 = meta.fiftyTwoWeekLow ?? stock.weekLow52
+                    stock.currency = meta.currency ?? stock.currency
+                    stock.marketState = Stock.MarketState(rawValue: meta.marketState ?? "") ?? .regular
+                    stock.lastUpdated = Date()
+
+                    let sparkline = chart.sparklineData
+                    if !sparkline.isEmpty { stock.sparklineData = sparkline }
                 }
                 updated.append(stock)
             }

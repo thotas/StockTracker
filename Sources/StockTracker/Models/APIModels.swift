@@ -1,56 +1,52 @@
 import Foundation
 
-// MARK: - Quote API Response
+// MARK: - Yahoo Finance v8/finance/chart Response
+// Used for both live quotes AND sparkline data in a single request per symbol.
+// Endpoint: https://query1.finance.yahoo.com/v8/finance/chart/{SYMBOL}?interval=5m&range=1d
+// Requires: Referer: https://finance.yahoo.com/quote/{SYMBOL}/
 
-struct QuoteAPIResponse: Decodable {
-    let quoteResponse: QuoteResult
+struct ChartAPIResponse: Decodable {
+    let chart: ChartResult
 
-    struct QuoteResult: Decodable {
-        let result: [QuoteData]?
-        let error: QuoteError?
+    struct ChartResult: Decodable {
+        let result: [ChartData]?
+        let error: ChartError?
     }
 
-    struct QuoteError: Decodable {
+    struct ChartError: Decodable {
         let code: String?
         let description: String?
     }
 
-    struct QuoteData: Decodable {
-        let symbol: String
-        let shortName: String?
-        let longName: String?
-        let regularMarketPrice: Double?
-        let regularMarketPreviousClose: Double?
-        let regularMarketChange: Double?
-        let regularMarketChangePercent: Double?
-        let regularMarketVolume: Int64?
-        let marketCap: Double?
-        let regularMarketOpen: Double?
-        let regularMarketDayHigh: Double?
-        let regularMarketDayLow: Double?
-        let fiftyTwoWeekHigh: Double?
-        let fiftyTwoWeekLow: Double?
-        let currency: String?
-        let marketState: String?
-    }
-}
-
-// MARK: - Spark API Response
-
-struct SparkAPIResponse: Decodable {
-    let spark: SparkResult
-
-    struct SparkResult: Decodable {
-        let result: [SparkSymbol]?
-    }
-
-    struct SparkSymbol: Decodable {
-        let symbol: String
-        let response: [SparkData]?
-    }
-
-    struct SparkData: Decodable {
+    struct ChartData: Decodable {
+        let meta: ChartMeta
+        let timestamp: [Int]?
         let indicators: Indicators?
+
+        struct ChartMeta: Decodable {
+            let symbol: String
+            let currency: String?
+            let shortName: String?
+            let longName: String?
+            let exchangeName: String?
+            let regularMarketPrice: Double?
+            let regularMarketOpen: Double?
+            let regularMarketDayHigh: Double?
+            let regularMarketDayLow: Double?
+            let regularMarketVolume: Int64?
+            let marketCap: Double?
+            // Previous close: Yahoo uses chartPreviousClose in v8, fallback to previousClose
+            let chartPreviousClose: Double?
+            let previousClose: Double?
+            let fiftyTwoWeekHigh: Double?
+            let fiftyTwoWeekLow: Double?
+            let marketState: String?
+
+            // Derived: previous close with fallback chain
+            var prevClose: Double {
+                chartPreviousClose ?? previousClose ?? 0
+            }
+        }
 
         struct Indicators: Decodable {
             let quote: [Quote]?
@@ -58,6 +54,11 @@ struct SparkAPIResponse: Decodable {
             struct Quote: Decodable {
                 let close: [Double?]?
             }
+        }
+
+        // Convenience: valid (non-nil) close prices for sparkline
+        var sparklineData: [Double] {
+            indicators?.quote?.first?.close?.compactMap { $0 } ?? []
         }
     }
 }

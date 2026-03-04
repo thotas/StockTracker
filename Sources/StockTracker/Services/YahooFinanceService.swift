@@ -14,173 +14,114 @@ enum StockError: LocalizedError {
         case .networkError(let e): "Network: \(e.localizedDescription)"
         case .apiError(let msg):   "API error: \(msg)"
         case .invalidResponse:     "Invalid server response"
-        case .rateLimited:         "Rate limited — retrying shortly"
+        case .rateLimited:         "Rate limited — will retry"
         case .noData:              "No data available"
         }
     }
 }
+
+// MARK: - YahooFinanceService
+// Uses Yahoo Finance v8/finance/chart endpoint.
+// One request per symbol returns both live quote data AND intraday sparkline.
+// No crumb/auth required — only a valid Referer header.
+// Symbols fetched concurrently via TaskGroup.
 
 actor YahooFinanceService {
     static let shared = YahooFinanceService()
 
     private let session: URLSession
     private let decoder = JSONDecoder()
-    private var crumb: String?
-    private var lastCrumbFetch: Date?
-    // Prevents concurrent crumb refreshes from doubling up
-    private var crumbRefreshTask: Task<String, Error>?
 
-    private static let quoteFields = [
-        "regularMarketPrice", "regularMarketPreviousClose",
-        "regularMarketChange", "regularMarketChangePercent",
-        "regularMarketVolume", "marketCap", "regularMarketOpen",
-        "regularMarketDayHigh", "regularMarketDayLow",
-        "fiftyTwoWeekHigh", "fiftyTwoWeekLow",
-        "shortName", "longName", "currency", "marketState"
-    ].joined(separator: ",")
+    // Base headers that make Yahoo Finance respond correctly
+    private static let baseHeaders: [String: String] = [
+        "User-Agent":      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
+        "Accept":          "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Origin":          "https://finance.yahoo.com"
+    ]
 
     private init() {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 15
         config.timeoutIntervalForResource = 30
-        config.httpAdditionalHeaders = [
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
-            "Accept": "application/json,text/html,*/*",
-            "Accept-Language": "en-US,en;q=0.9"
-        ]
+        // Persist cookies across requests (important for Yahoo Finance session)
+        config.httpCookieAcceptPolicy = .always
+        config.httpShouldSetCookies = true
+        config.httpAdditionalHeaders = Self.baseHeaders
         session = URLSession(configuration: config)
-    }
-
-    // MARK: - Crumb (coalesced — concurrent callers share one refresh Task)
-
-    private func ensureCrumb() async throws -> String {
-        if let crumb, let fetchDate = lastCrumbFetch,
-           Date().timeIntervalSince(fetchDate) < 1800 {
-            return crumb
-        }
-        return try await coalescedCrumbRefresh()
-    }
-
-    private func coalescedCrumbRefresh() async throws -> String {
-        if let existing = crumbRefreshTask {
-            return try await existing.value
-        }
-        let task = Task<String, Error> {
-            defer { crumbRefreshTask = nil }
-            return try await self.doRefreshCrumb()
-        }
-        crumbRefreshTask = task
-        return try await task.value
-    }
-
-    private func doRefreshCrumb() async throws -> String {
-        _ = try? await session.data(from: URL(string: "https://finance.yahoo.com/")!)
-
-        let (data, response) = try await session.data(from:
-            URL(string: "https://query1.finance.yahoo.com/v1/test/getcrumb")!)
-
-        if let http = response as? HTTPURLResponse, http.statusCode == 429 {
-            throw StockError.rateLimited
-        }
-
-        let fetched = String(data: data, encoding: .utf8) ?? ""
-        guard !fetched.isEmpty, !fetched.contains("<") else { return "" }
-
-        self.crumb = fetched
-        self.lastCrumbFetch = Date()
-        return fetched
     }
 
     // MARK: - Public API
 
-    func fetchQuotes(symbols: [String]) async throws -> [String: QuoteAPIResponse.QuoteData] {
+    /// Fetch live quotes + sparkline for all symbols concurrently.
+    /// Returns a dict keyed by symbol.
+    func fetchAllCharts(symbols: [String]) async throws -> [String: ChartAPIResponse.ChartData] {
         guard !symbols.isEmpty else { return [:] }
 
-        let crumb = (try? await ensureCrumb()) ?? ""
-        let url = quoteURL(symbols: symbols, crumb: crumb)
+        return try await withThrowingTaskGroup(of: (String, ChartAPIResponse.ChartData?).self) { group in
+            for symbol in symbols {
+                group.addTask { [self] in
+                    let data = try? await self.fetchChart(symbol: symbol)
+                    return (symbol, data)
+                }
+            }
 
-        let (data, response) = try await session.data(for: urlRequest(url))
+            var results: [String: ChartAPIResponse.ChartData] = [:]
+            for try await (symbol, data) in group {
+                if let data { results[symbol] = data }
+            }
+            return results
+        }
+    }
+
+    /// Fetch chart data for a single symbol.
+    /// Endpoint: v8/finance/chart/{symbol}?interval=5m&range=1d
+    func fetchChart(symbol: String) async throws -> ChartAPIResponse.ChartData {
+        let url = chartURL(for: symbol)
+        var request = URLRequest(url: url)
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+        // Symbol-specific Referer is the key to bypassing Yahoo's bot detection
+        request.setValue("https://finance.yahoo.com/quote/\(symbol)/", forHTTPHeaderField: "Referer")
+
+        let (data, response) = try await session.data(for: request)
 
         if let http = response as? HTTPURLResponse {
             switch http.statusCode {
-            case 200: break
-            case 401, 403:
-                // Invalidate crumb and retry once with fresh one
-                self.crumb = nil
-                let freshCrumb = (try? await coalescedCrumbRefresh()) ?? ""
-                let retryURL = quoteURL(symbols: symbols, crumb: freshCrumb)
-                let (retryData, _) = try await session.data(for: urlRequest(retryURL))
-                return try parseQuotes(data: retryData)
-            case 429: throw StockError.rateLimited
-            default:  throw StockError.invalidResponse
+            case 200:   break
+            case 429:   throw StockError.rateLimited
+            case 404:   throw StockError.invalidSymbol(symbol)
+            default:    throw StockError.invalidResponse
             }
         }
 
-        return try parseQuotes(data: data)
-    }
+        let parsed = try decoder.decode(ChartAPIResponse.self, from: data)
 
-    private func quoteURL(symbols: [String], crumb: String) -> URL {
-        var comps = URLComponents(string: "https://query1.finance.yahoo.com/v7/finance/quote")!
-        var items: [URLQueryItem] = [
-            URLQueryItem(name: "symbols", value: symbols.joined(separator: ",")),
-            URLQueryItem(name: "fields", value: Self.quoteFields)
-        ]
-        if !crumb.isEmpty { items.append(URLQueryItem(name: "crumb", value: crumb)) }
-        comps.queryItems = items
-        return comps.url!
-    }
-
-    private func urlRequest(_ url: URL) -> URLRequest {
-        var req = URLRequest(url: url)
-        req.cachePolicy = .reloadIgnoringLocalCacheData
-        return req
-    }
-
-    private func parseQuotes(data: Data) throws -> [String: QuoteAPIResponse.QuoteData] {
-        let response = try decoder.decode(QuoteAPIResponse.self, from: data)
-        let result = response.quoteResponse
-
-        // Surface API-level errors
-        if let apiErr = result.error, let msg = apiErr.description ?? apiErr.code {
-            throw StockError.apiError(msg)
+        if let err = parsed.chart.error {
+            throw StockError.apiError(err.description ?? err.code ?? "Unknown API error")
         }
 
-        guard let results = result.result, !results.isEmpty else {
+        guard let result = parsed.chart.result?.first else {
             throw StockError.noData
         }
-        return Dictionary(uniqueKeysWithValues: results.map { ($0.symbol, $0) })
+
+        return result
     }
 
-    func fetchSparklines(symbols: [String]) async throws -> [String: [Double]] {
-        guard !symbols.isEmpty else { return [:] }
-
-        var comps = URLComponents(string: "https://query1.finance.yahoo.com/v8/finance/spark")!
-        comps.queryItems = [
-            URLQueryItem(name: "symbols", value: symbols.joined(separator: ",")),
-            URLQueryItem(name: "range", value: "1d"),
-            URLQueryItem(name: "interval", value: "5m")
-        ]
-        guard let url = comps.url else { return [:] }
-
-        guard let (data, response) = try? await session.data(for: urlRequest(url)),
-              let http = response as? HTTPURLResponse,
-              http.statusCode == 200 else { return [:] }
-
-        guard let sparkResp = try? decoder.decode(SparkAPIResponse.self, from: data),
-              let results = sparkResp.spark.result else { return [:] }
-
-        var map: [String: [Double]] = [:]
-        for item in results {
-            if let closes = item.response?.first?.indicators?.quote?.first?.close {
-                let valid = closes.compactMap { $0 }
-                if !valid.isEmpty { map[item.symbol] = valid }
-            }
-        }
-        return map
-    }
-
+    /// Validate a symbol by attempting a chart fetch.
     func validateSymbol(_ symbol: String) async -> Bool {
-        guard let result = try? await fetchQuotes(symbols: [symbol]) else { return false }
-        return result[symbol.uppercased()] != nil
+        (try? await fetchChart(symbol: symbol.uppercased())) != nil
+    }
+
+    // MARK: - Private
+
+    private func chartURL(for symbol: String) -> URL {
+        var comps = URLComponents(string: "https://query1.finance.yahoo.com/v8/finance/chart/\(symbol)")!
+        comps.queryItems = [
+            URLQueryItem(name: "interval", value: "5m"),
+            URLQueryItem(name: "range",    value: "1d"),
+            URLQueryItem(name: "includePrePost", value: "true")
+        ]
+        return comps.url!
     }
 }
