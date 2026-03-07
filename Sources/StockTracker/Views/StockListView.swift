@@ -20,6 +20,8 @@ struct StockListView: View {
     @Binding var showAddStock: Bool
     @Binding var showSettings: Bool
     @State private var showAddPosition = false
+    @State private var showWatchlistManager = false
+    @State private var newWatchlistName = ""
 
     var body: some View {
         VStack(spacing: 0) {
@@ -33,8 +35,38 @@ struct StockListView: View {
                 HStack(spacing: 6) {
                     Image(systemName: viewModel.isPortfolioMode ? "briefcase.fill" : "chart.bar.fill")
                         .foregroundColor(.accentColor)
-                    Text(viewModel.isPortfolioMode ? "Portfolio" : "Watchlist")
-                        .font(.system(size: 14, weight: .semibold))
+                    if viewModel.isPortfolioMode {
+                        Text("Portfolio")
+                            .font(.system(size: 14, weight: .semibold))
+                    } else {
+                        Menu {
+                            ForEach(viewModel.store.watchlists) { watchlist in
+                                Button {
+                                    viewModel.store.selectWatchlist(id: watchlist.id)
+                                } label: {
+                                    HStack {
+                                        Text(watchlist.name)
+                                        if viewModel.store.currentWatchlistId == watchlist.id {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                            Divider()
+                            Button {
+                                showWatchlistManager = true
+                            } label: {
+                                Label("Manage Watchlists", systemImage: "list.bullet")
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text(viewModel.store.currentWatchlist?.name ?? "Watchlist")
+                                    .font(.system(size: 14, weight: .semibold))
+                                Image(systemName: "chevron.down")
+                                    .font(.system(size: 10))
+                            }
+                        }
+                    }
                 }
             }
 
@@ -86,6 +118,9 @@ struct StockListView: View {
         }
         .sheet(isPresented: $showAddPosition) {
             AddPositionView(viewModel: viewModel)
+        }
+        .sheet(isPresented: $showWatchlistManager) {
+            WatchlistManagerView(viewModel: viewModel)
         }
     }
 

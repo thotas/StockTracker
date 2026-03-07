@@ -29,5 +29,8 @@ struct ContentView: View {
         .sheet(isPresented: $showAddStock) {
             AddStockView(viewModel: viewModel)
         }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+        }
     }
 }

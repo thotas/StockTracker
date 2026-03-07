@@ -35,7 +35,7 @@ final class StockListViewModel: ObservableObject {
     @Published var sortOption: SortOption = .symbol
 
     private let service = YahooFinanceService.shared
-    private let store = WatchlistStore.shared
+    let store = WatchlistStore.shared
     private let settings = SettingsManager.shared
     private var isFetching = false
     private var isAutoRefreshRunning = false
@@ -73,7 +73,23 @@ final class StockListViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
+        // Listen for watchlist changes
+        store.$currentWatchlistId
+            .dropFirst()
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.reloadForWatchlistChange()
+                }
+            }
+            .store(in: &cancellables)
+
         Task { await startAutoRefresh() }
+    }
+
+    private func reloadForWatchlistChange() {
+        stocks = store.symbols.map { Stock(symbol: $0) }
+        selectedStock = nil
+        Task { await refresh() }
     }
 
     deinit {
