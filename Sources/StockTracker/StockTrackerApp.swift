@@ -10,6 +10,7 @@ struct StockTrackerApp: App {
             ContentView(showSettings: $showSettings, showAddStock: $showAddStock)
                 .frame(minWidth: 720, minHeight: 480)
                 .focusedSceneValue(\.addStockTrigger, showAddStock)
+                .preferredColorScheme(.dark)
         }
         .windowStyle(.titleBar)
         .windowToolbarStyle(.unified(showsTitle: true))

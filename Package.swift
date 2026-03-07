@@ -7,7 +7,10 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "StockTracker",
-            path: "Sources/StockTracker"
+            path: "Sources/StockTracker",
+            resources: [
+                .process("Assets.xcassets")
+            ]
         ),
         .testTarget(
             name: "StockTrackerTests",

@@ -2,6 +2,18 @@ import Foundation
 import SwiftUI
 import Combine
 
+// MARK: - Sort Option
+
+enum SortOption: String, CaseIterable, Identifiable {
+    case symbol = "Symbol"
+    case price = "Price"
+    case changePercent = "Change %"
+    case gainers = "Gainers"
+    case losers = "Losers"
+
+    var id: String { rawValue }
+}
+
 @MainActor
 final class StockListViewModel: ObservableObject {
     @Published var stocks: [Stock] = []
@@ -11,6 +23,16 @@ final class StockListViewModel: ObservableObject {
     @Published var lastUpdated: Date?
     @Published var selectedStock: Stock?
     @Published var retryCountdown: Int = 0
+
+    // Portfolio Mode
+    @Published var isPortfolioMode = false
+    let portfolioStore = PortfolioStore.shared
+
+    // Search & Filter
+    @Published var searchText = ""
+
+    // Sorting
+    @Published var sortOption: SortOption = .symbol
 
     private let service = YahooFinanceService.shared
     private let store = WatchlistStore.shared
@@ -219,4 +241,142 @@ final class StockListViewModel: ObservableObject {
 
     var gainers: Int { stocks.filter { $0.change > 0 && $0.price > 0 }.count }
     var losers:  Int { stocks.filter { $0.change < 0 && $0.price > 0 }.count }
+
+    // MARK: - Search & Filter
+
+    var filteredStocks: [Stock] {
+        let searchTerm = searchText.lowercased().trimmingCharacters(in: .whitespaces)
+        guard !searchTerm.isEmpty else { return stocks }
+        return stocks.filter {
+            $0.symbol.lowercased().contains(searchTerm) ||
+            $0.name.lowercased().contains(searchTerm)
+        }
+    }
+
+    var sortedStocks: [Stock] {
+        var result = isPortfolioMode ? portfolioStocks : filteredStocks
+
+        switch sortOption {
+        case .symbol:
+            result.sort { $0.symbol < $1.symbol }
+        case .price:
+            result.sort { $0.price > $1.price }
+        case .changePercent:
+            result.sort { $0.changePercent > $1.changePercent }
+        case .gainers:
+            result.sort { $0.changePercent > $1.changePercent }
+        case .losers:
+            result.sort { $0.changePercent < $1.changePercent }
+        }
+
+        // For gainers/losers, filter to only show positive/negative
+        if sortOption == .gainers {
+            result = result.filter { $0.changePercent > 0 }
+        } else if sortOption == .losers {
+            result = result.filter { $0.changePercent < 0 }
+        }
+
+        return result
+    }
+
+    // MARK: - Portfolio
+
+    var portfolioStocks: [Stock] {
+        let portfolioSymbols = portfolioStore.positions.map { $0.symbol }
+        return stocks.filter { portfolioSymbols.contains($0.symbol) }
+    }
+
+    var portfolioTotalValue: Double {
+        portfolioStore.positions.reduce(0) { total, position in
+            if let stock = stocks.first(where: { $0.symbol == position.symbol }) {
+                return total + position.currentValue(price: stock.price)
+            }
+            return total
+        }
+    }
+
+    var portfolioTotalCost: Double {
+        portfolioStore.positions.reduce(0) { $0 + $1.totalCost }
+    }
+
+    var portfolioTotalProfitLoss: Double {
+        portfolioTotalValue - portfolioTotalCost
+    }
+
+    var portfolioTotalProfitLossPercent: Double {
+        guard portfolioTotalCost > 0 else { return 0 }
+        return (portfolioTotalProfitLoss / portfolioTotalCost) * 100
+    }
+
+    var formattedPortfolioTotalValue: String {
+        String(format: "$%.2f", portfolioTotalValue)
+    }
+
+    var formattedPortfolioTotalProfitLoss: String {
+        let sign = portfolioTotalProfitLoss >= 0 ? "+" : ""
+        return "\(sign)\(String(format: "$%.2f", portfolioTotalProfitLoss))"
+    }
+
+    var formattedPortfolioTotalProfitLossPercent: String {
+        let sign = portfolioTotalProfitLossPercent >= 0 ? "+" : ""
+        return "\(sign)\(String(format: "%.2f", portfolioTotalProfitLossPercent))%"
+    }
+
+    // MARK: - Market Status
+
+    var marketStatus: MarketStatus {
+        let now = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: now)
+        let minute = calendar.component(.minute, from: now)
+        let weekday = calendar.component(.weekday, from: now)
+
+        // Weekend
+        if weekday == 1 || weekday == 7 {
+            return .closed
+        }
+
+        let currentTime = hour * 60 + minute
+        let marketOpen = 9 * 60 + 30  // 9:30 AM
+        let marketClose = 16 * 60     // 4:00 PM
+        let preMarketStart = 4 * 60   // 4:00 AM
+        let afterHoursEnd = 20 * 60  // 8:00 PM
+
+        if currentTime >= marketOpen && currentTime < marketClose {
+            return .open
+        } else if currentTime >= preMarketStart && currentTime < marketOpen {
+            return .preMarket
+        } else if currentTime >= marketClose && currentTime < afterHoursEnd {
+            return .afterHours
+        } else {
+            return .closed
+        }
+    }
+}
+
+// MARK: - Market Status
+
+enum MarketStatus: String {
+    case open = "Open"
+    case closed = "Closed"
+    case preMarket = "Pre-Market"
+    case afterHours = "After Hours"
+
+    var color: Color {
+        switch self {
+        case .open: return Color(red: 0.18, green: 0.80, blue: 0.44)
+        case .closed: return .secondary
+        case .preMarket: return .orange
+        case .afterHours: return .purple
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .open: return "checkmark.circle.fill"
+        case .closed: return "xmark.circle.fill"
+        case .preMarket: return "sunrise.fill"
+        case .afterHours: return "sunset.fill"
+        }
+    }
 }
