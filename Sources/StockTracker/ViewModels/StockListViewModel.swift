@@ -10,12 +10,16 @@ final class StockListViewModel: ObservableObject {
     @Published var error: String?
     @Published var lastUpdated: Date?
     @Published var selectedStock: Stock?
+    @Published var retryCountdown: Int = 0
 
     private let service = YahooFinanceService.shared
     private let store = WatchlistStore.shared
+    private let settings = SettingsManager.shared
     private var isFetching = false
     private var isAutoRefreshRunning = false
     private var timerTask: Task<Void, Never>?
+    private var countdownTask: Task<Void, Never>?
+    private var cancellables = Set<AnyCancellable>()
 
     // Cached formatter — not re-allocated on every status bar render
     private static let relativeFormatter: RelativeDateTimeFormatter = {
@@ -24,10 +28,29 @@ final class StockListViewModel: ObservableObject {
         return f
     }()
 
-    let refreshInterval: TimeInterval = 15
+    /// Current refresh interval from settings
+    var refreshInterval: TimeInterval {
+        settings.refreshInterval
+    }
+
+    /// Whether animations are enabled
+    var animationsEnabled: Bool {
+        settings.animationsEnabled
+    }
 
     init() {
         stocks = store.symbols.map { Stock(symbol: $0) }
+
+        // Listen for settings changes to restart auto-refresh with new interval
+        settings.$refreshInterval
+            .dropFirst()
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    await self?.restartAutoRefresh()
+                }
+            }
+            .store(in: &cancellables)
+
         Task { await startAutoRefresh() }
     }
 
@@ -52,6 +75,13 @@ final class StockListViewModel: ObservableObject {
                 await self.refresh()
             }
         }
+    }
+
+    /// Restart auto-refresh with new settings
+    func restartAutoRefresh() async {
+        timerTask?.cancel()
+        isAutoRefreshRunning = false
+        await startAutoRefresh()
     }
 
     // MARK: - Refresh
@@ -128,6 +158,31 @@ final class StockListViewModel: ObservableObject {
 
         } catch {
             self.error = (error as? StockError)?.errorDescription ?? error.localizedDescription
+            // Start countdown for retry
+            startRetryCountdown()
+        }
+    }
+
+    // MARK: - Retry Countdown
+
+    private func startRetryCountdown() {
+        countdownTask?.cancel()
+        retryCountdown = 5
+
+        countdownTask = Task { [weak self] in
+            while !Task.isCancelled && (self?.retryCountdown ?? 0) > 0 {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard !Task.isCancelled else { break }
+                await MainActor.run {
+                    if self?.retryCountdown ?? 0 > 0 {
+                        self?.retryCountdown -= 1
+                    }
+                }
+            }
+            // Auto-refresh when countdown reaches 0
+            if !Task.isCancelled {
+                await self?.refresh()
+            }
         }
     }
 

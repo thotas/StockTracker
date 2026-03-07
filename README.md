@@ -49,15 +49,18 @@ Most stock apps are either bloated (Bloomberg Terminal, Webull) or mobile-first 
 
 - [x] Live stock quotes (equities, ETFs, indices)
 - [x] Intraday sparkline charts per stock
-- [x] Real-time price flash on update
+- [x] Real-time price flash on update (configurable)
 - [x] NavigationSplitView: list + detail simultaneously
 - [x] Add stocks with symbol validation
-- [x] Remove stocks via right-click context menu
+- [x] Remove stocks via right-click context menu or ⌘⌫
 - [x] 52-week range slider with price indicator
 - [x] Gainer/loser count in status bar
 - [x] Market state display (Open / Pre-Market / After Hours / Closed)
-- [x] Error handling with status bar messaging
+- [x] Error handling with auto-retry countdown and manual refresh
 - [x] Persistent watchlist via UserDefaults
+- [x] Settings panel (refresh interval, animations, default watchlist)
+- [x] Keyboard shortcuts (⌘N add, ⌘R refresh, ⌘⌫ remove)
+- [x] Unit tests for models, services, and viewmodels
 
 ## Tech Stack
 
@@ -104,13 +107,29 @@ Then press ⌘R to run.
 
 ## Configuration
 
-No configuration files required. All settings are managed in-app:
+No configuration files required. All settings are managed in-app via the Settings panel (⌘,):
 
 | Setting | How to change |
 |---|---|
 | Watchlist symbols | Click **+** to add, right-click → Remove to delete |
-| Refresh interval | Edit `refreshInterval` in `StockListViewModel.swift` (default: 15s) |
-| Default symbols | Edit `defaults` in `WatchlistStore.swift` |
+| Refresh interval | Settings → Refresh Interval slider (5-60 seconds) |
+| Animations | Settings → Enable/disable price flash animations |
+| Default symbols | Settings → Default Watchlist (comma-separated) |
+
+### Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| ⌘N | Add new stock to watchlist |
+| ⌘R | Refresh all prices |
+| ⌘⌫ | Remove selected stock from watchlist |
+| ⌘, | Open Settings |
+
+### Menu Bar
+
+- **StockTracker** → About, Settings (⌘,), Quit (⌘Q)
+- **File** → Add Stock (⌘N)
+- **View** → Refresh (⌘R), Remove Selected Stock (⌘⌫)
 
 ## Architecture
 
@@ -140,7 +159,8 @@ StockTracker/
 │   │   └── APIModels.swift               # Decodable API response types
 │   ├── Services/
 │   │   ├── YahooFinanceService.swift     # All Yahoo Finance API calls
-│   │   └── WatchlistStore.swift         # UserDefaults persistence
+│   │   ├── WatchlistStore.swift         # UserDefaults persistence
+│   │   └── SettingsManager.swift        # App settings (UserDefaults)
 │   ├── ViewModels/
 │   │   └── StockListViewModel.swift     # State, refresh timer, business logic
 │   └── Views/
@@ -149,8 +169,11 @@ StockTracker/
 │       ├── StockRowView.swift            # One row: symbol, sparkline, price
 │       ├── StockDetailView.swift         # Detail: chart, stats, range
 │       ├── AddStockView.swift            # Add stock sheet with validation
+│       ├── SettingsView.swift           # Settings panel UI
 │       └── SparklineView.swift          # Reusable mini price chart
+├── Tests/StockTrackerTests/               # Unit tests
 ├── README.md
+├── LICENSE                               # MIT License
 ├── DECISIONS.md                          # Every major design decision
 └── ARCHITECTURE.md                       # System diagram and component docs
 ```

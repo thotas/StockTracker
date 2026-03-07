@@ -2,8 +2,14 @@ import SwiftUI
 
 struct StockRowView: View {
     let stock: Stock
+    let animationsEnabled: Bool
     @State private var flashGreen = false
     @State private var flashRed = false
+
+    init(stock: Stock, animationsEnabled: Bool = true) {
+        self.stock = stock
+        self.animationsEnabled = animationsEnabled
+    }
 
     var body: some View {
         HStack(spacing: 10) {
@@ -46,7 +52,7 @@ struct StockRowView: View {
                         : flashRed ? Color(red: 0.95, green: 0.27, blue: 0.27)
                         : .primary
                     )
-                    .animation(.easeInOut(duration: 0.3), value: flashGreen || flashRed)
+                    .animation(animationsEnabled ? .easeInOut(duration: 0.3) : .default, value: flashGreen || flashRed)
 
                 if stock.price > 0 {
                     Text(stock.formattedChangePercent)
@@ -69,6 +75,7 @@ struct StockRowView: View {
         }
         .padding(.vertical, 5)
         .onChange(of: stock.price) { old, new in
+            guard animationsEnabled else { return }
             guard old > 0, new > 0, old != new else { return }
             if new > old {
                 flashGreen = true
