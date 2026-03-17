@@ -105,6 +105,13 @@ open Package.swift
 ```
 Then press ⌘R to run.
 
+**Or build the .app bundle:**
+```bash
+xcodegen generate
+xcodebuild -project StockTracker.xcodeproj -scheme StockTracker -configuration Release build
+```
+The built app will be in `~/Library/Developer/Xcode/DerivedData/StockTracker-*/Build/Products/Release/StockTracker.app`
+
 ## Configuration
 
 No configuration files required. All settings are managed in-app via the Settings panel (⌘,):

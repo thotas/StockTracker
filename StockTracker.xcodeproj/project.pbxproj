@@ -1,0 +1,408 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02946076044198DBCEC88A9C /* SparklineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B112397EA1D53764D230D3 /* SparklineView.swift */; };
+		1EF63B53B61AA211E9406380 /* StockRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5188669EE2B433AA946F9EFC /* StockRowView.swift */; };
+		46E688592F37A6AF5CA375E0 /* WatchlistManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CFD95B67C28B9C65463294 /* WatchlistManagerView.swift */; };
+		47BD288AD47A22D31163EB23 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B954BCD3C29F0CA9B2AC69C /* SettingsManager.swift */; };
+		48E74747D742C7CD408BF5EC /* PortfolioStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19035C2325DCEF151E889B42 /* PortfolioStore.swift */; };
+		4BCED28F0DCF07FBF6408F0E /* AddStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3D3B40A92FC0893D0A4038 /* AddStockView.swift */; };
+		5C21CB305DFC09BD76593A47 /* APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8985B1D6D730226668A44B23 /* APIModels.swift */; };
+		66FF5E40E75D392A95E6A2DA /* WatchlistStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABC94581B96BFFA6A80C851 /* WatchlistStore.swift */; };
+		7B331CCD9136898ADDACD38A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D94863FD05F10895D6C03D /* ContentView.swift */; };
+		834B0C0F0EC48CE516D6DB8A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A893FF2AD79FEA47F65EA1 /* SettingsView.swift */; };
+		915BC4C6FD57A396DFECA8EF /* StockTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2A2445B238A7D8274D686D /* StockTrackerApp.swift */; };
+		A7BA78407F6FE12D6EE15DAB /* YahooFinanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B7213732F329DA6C93D88F /* YahooFinanceService.swift */; };
+		AB6A695660FB0B818F09DAEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2F24BCFB79D6C6444CBC4D6 /* Assets.xcassets */; };
+		AC005DC38093FE2D522042AC /* PortfolioPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BA66173F2DC7CDF1051328 /* PortfolioPosition.swift */; };
+		AEB0479A7D18FCEAC5CC5A20 /* StockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1FEB5FB4C1E9C9142FC64E /* StockListViewModel.swift */; };
+		D52FCD24EA147A11A01D3896 /* StockDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7334F164875C9FFA353A6E6 /* StockDetailView.swift */; };
+		EA93DCAB627BAEF2A533BDBA /* StockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F95B510729007D25D5B24B /* StockListView.swift */; };
+		F6009A460ADD7734DE0A7FCF /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AD0420C250CBB469EE5F48 /* Stock.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		16B7213732F329DA6C93D88F /* YahooFinanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YahooFinanceService.swift; sourceTree = "<group>"; };
+		19035C2325DCEF151E889B42 /* PortfolioStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStore.swift; sourceTree = "<group>"; };
+		1A3D3B40A92FC0893D0A4038 /* AddStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStockView.swift; sourceTree = "<group>"; };
+		27BA66173F2DC7CDF1051328 /* PortfolioPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioPosition.swift; sourceTree = "<group>"; };
+		5188669EE2B433AA946F9EFC /* StockRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockRowView.swift; sourceTree = "<group>"; };
+		592A352FEAEAEBCD762E4C67 /* StockTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		59AD0420C250CBB469EE5F48 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		68F95B510729007D25D5B24B /* StockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListView.swift; sourceTree = "<group>"; };
+		7B954BCD3C29F0CA9B2AC69C /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		8985B1D6D730226668A44B23 /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
+		8ABC94581B96BFFA6A80C851 /* WatchlistStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistStore.swift; sourceTree = "<group>"; };
+		AB1FEB5FB4C1E9C9142FC64E /* StockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListViewModel.swift; sourceTree = "<group>"; };
+		B0B112397EA1D53764D230D3 /* SparklineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklineView.swift; sourceTree = "<group>"; };
+		B1D94863FD05F10895D6C03D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B7334F164875C9FFA353A6E6 /* StockDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailView.swift; sourceTree = "<group>"; };
+		C2F24BCFB79D6C6444CBC4D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C6CFD95B67C28B9C65463294 /* WatchlistManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistManagerView.swift; sourceTree = "<group>"; };
+		D4A893FF2AD79FEA47F65EA1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		FB2A2445B238A7D8274D686D /* StockTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTrackerApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		300CD6990A838F90F542AAAE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1A3D3B40A92FC0893D0A4038 /* AddStockView.swift */,
+				B1D94863FD05F10895D6C03D /* ContentView.swift */,
+				D4A893FF2AD79FEA47F65EA1 /* SettingsView.swift */,
+				B0B112397EA1D53764D230D3 /* SparklineView.swift */,
+				B7334F164875C9FFA353A6E6 /* StockDetailView.swift */,
+				68F95B510729007D25D5B24B /* StockListView.swift */,
+				5188669EE2B433AA946F9EFC /* StockRowView.swift */,
+				C6CFD95B67C28B9C65463294 /* WatchlistManagerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		57FB66CF624AA690C203FC68 = {
+			isa = PBXGroup;
+			children = (
+				AE21C951AB82F7346F69197A /* StockTracker */,
+				72C7EA295FBD4DB15EDF2CA2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		72C7EA295FBD4DB15EDF2CA2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				592A352FEAEAEBCD762E4C67 /* StockTracker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7F82FCE93B6947B79A06E719 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				19035C2325DCEF151E889B42 /* PortfolioStore.swift */,
+				7B954BCD3C29F0CA9B2AC69C /* SettingsManager.swift */,
+				8ABC94581B96BFFA6A80C851 /* WatchlistStore.swift */,
+				16B7213732F329DA6C93D88F /* YahooFinanceService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		88F975117C78932BB01498A7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8985B1D6D730226668A44B23 /* APIModels.swift */,
+				27BA66173F2DC7CDF1051328 /* PortfolioPosition.swift */,
+				59AD0420C250CBB469EE5F48 /* Stock.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A286DCE60F1734A13690D426 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AB1FEB5FB4C1E9C9142FC64E /* StockListViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AE21C951AB82F7346F69197A /* StockTracker */ = {
+			isa = PBXGroup;
+			children = (
+				C2F24BCFB79D6C6444CBC4D6 /* Assets.xcassets */,
+				FB2A2445B238A7D8274D686D /* StockTrackerApp.swift */,
+				88F975117C78932BB01498A7 /* Models */,
+				7F82FCE93B6947B79A06E719 /* Services */,
+				A286DCE60F1734A13690D426 /* ViewModels */,
+				300CD6990A838F90F542AAAE /* Views */,
+			);
+			name = StockTracker;
+			path = Sources/StockTracker;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F5B94C36DA159648E0039B8A /* StockTracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB8C8D55ED5F4EA1FE7DCA8B /* Build configuration list for PBXNativeTarget "StockTracker" */;
+			buildPhases = (
+				58A90198041033767B652149 /* Sources */,
+				0FDEC0158A8DBA0C7A94615D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StockTracker;
+			packageProductDependencies = (
+			);
+			productName = StockTracker;
+			productReference = 592A352FEAEAEBCD762E4C67 /* StockTracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F503EC97B55632E0CBFD05A0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = B5D5F580862875EA382AFA74 /* Build configuration list for PBXProject "StockTracker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 57FB66CF624AA690C203FC68;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F5B94C36DA159648E0039B8A /* StockTracker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0FDEC0158A8DBA0C7A94615D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB6A695660FB0B818F09DAEC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		58A90198041033767B652149 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C21CB305DFC09BD76593A47 /* APIModels.swift in Sources */,
+				4BCED28F0DCF07FBF6408F0E /* AddStockView.swift in Sources */,
+				7B331CCD9136898ADDACD38A /* ContentView.swift in Sources */,
+				AC005DC38093FE2D522042AC /* PortfolioPosition.swift in Sources */,
+				48E74747D742C7CD408BF5EC /* PortfolioStore.swift in Sources */,
+				47BD288AD47A22D31163EB23 /* SettingsManager.swift in Sources */,
+				834B0C0F0EC48CE516D6DB8A /* SettingsView.swift in Sources */,
+				02946076044198DBCEC88A9C /* SparklineView.swift in Sources */,
+				F6009A460ADD7734DE0A7FCF /* Stock.swift in Sources */,
+				D52FCD24EA147A11A01D3896 /* StockDetailView.swift in Sources */,
+				EA93DCAB627BAEF2A533BDBA /* StockListView.swift in Sources */,
+				AEB0479A7D18FCEAC5CC5A20 /* StockListViewModel.swift in Sources */,
+				1EF63B53B61AA211E9406380 /* StockRowView.swift in Sources */,
+				915BC4C6FD57A396DFECA8EF /* StockTrackerApp.swift in Sources */,
+				46E688592F37A6AF5CA375E0 /* WatchlistManagerView.swift in Sources */,
+				66FF5E40E75D392A95E6A2DA /* WatchlistStore.swift in Sources */,
+				A7BA78407F6FE12D6EE15DAB /* YahooFinanceService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		02FE597FFFEB4BFD167BC198 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_GENERATION_MODE = GeneratedFile;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stocktracker.app;
+				PRODUCT_NAME = StockTracker;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7B8C902CDDEEF7840EFE6FC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		946FA23CDCC2D92C7313843E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		DE636CBDA8B87A528F56F06D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_GENERATION_MODE = GeneratedFile;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stocktracker.app;
+				PRODUCT_NAME = StockTracker;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B5D5F580862875EA382AFA74 /* Build configuration list for PBXProject "StockTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B8C902CDDEEF7840EFE6FC6 /* Debug */,
+				946FA23CDCC2D92C7313843E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BB8C8D55ED5F4EA1FE7DCA8B /* Build configuration list for PBXNativeTarget "StockTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02FE597FFFEB4BFD167BC198 /* Debug */,
+				DE636CBDA8B87A528F56F06D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F503EC97B55632E0CBFD05A0 /* Project object */;
+}
